@@ -2,7 +2,6 @@ package com.application.library.service;
 
 import com.application.library.entity.Publisher;
 import com.application.library.repository.PublisherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +23,9 @@ public class PublisherService {
         return publisherRepository.findById(id).orElseThrow(() -> new RuntimeException("No such publisher found"));
     }
 
-    public void createPublisher(Publisher publisher) { //adding a new publisher
+    public Publisher createPublisher(Publisher publisher) { //adding a new publisher
         publisherRepository.save(publisher);
+        return publisher;
     }
 
     public void deletePublisher(Long id) { //removing publisher

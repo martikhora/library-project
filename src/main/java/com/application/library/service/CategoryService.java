@@ -21,8 +21,9 @@ public class CategoryService {
         return categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("No such category found"));
     }
 
-    public void createCategory(Category category) { //adding a new category
+    public Category createCategory(Category category) { //adding a new category
         categoryRepository.save(category);
+        return category;
     }
 
     public void deleteCategory(Long id) { //removing category

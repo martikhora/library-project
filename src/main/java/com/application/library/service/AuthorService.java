@@ -21,8 +21,8 @@ public class AuthorService {
         return authorRepository.findById(id).orElseThrow(() -> new RuntimeException("No such author found"));
     }
 
-    public void createAuthor(Author author) { //adding a new author
-        authorRepository.save(author);
+    public Author createAuthor(Author author) { //adding a new author
+        return authorRepository.save(author);
     }
 
     public void deleteAuthor(Long id) { //removing author

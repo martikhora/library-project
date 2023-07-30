@@ -2,7 +2,6 @@ package com.application.library.service;
 
 import com.application.library.entity.Book;
 import com.application.library.repository.BookRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +14,16 @@ public class BookService {
     private BookRepository bookRepository;
 
     public List <Book> findAllBooks() { //getting all books
-        return bookRepository.findAll();
+        return bookRepository.findAll();  //todo pageable query
     }
 
     public Book findBookById(Long id) {//getting a specific book from repository
-        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("No such book found"));
+        Book book = bookRepository.findById(id).orElseThrow(() -> new RuntimeException("No such book found")); //todo to business exception or empty book
         return book;
     }
 
-    public void createBook(Book book) { //adding a new book
-        bookRepository.save(book);
+    public Book createBook(Book book) { //adding a new book
+        return bookRepository.save(book);
     }
 
     public void deleteBook (Long id) { //removing book

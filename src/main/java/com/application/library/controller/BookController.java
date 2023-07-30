@@ -1,19 +1,13 @@
 package com.application.library.controller;
 
+import com.application.library.dto.BookDto;
 import com.application.library.entity.Book;
-import com.application.library.service.AuthorService;
+import com.application.library.mapper.BookMapper;
 import com.application.library.service.BookService;
-import com.application.library.service.CategoryService;
-import com.application.library.service.PublisherService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.Binding;
 import java.util.List;
 
 @Controller
@@ -21,72 +15,44 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
+    private final BookMapper bookMapper;
 
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private PublisherService publisherService;
-
-    @Autowired
-    private AuthorService authorService;
-
-    @GetMapping("/books")
-    public String findAllBooks(Model model) {
+    @GetMapping("/books") //todo pageable request
+    public List<BookDto> findAllBooks() {
         List<Book> books = bookService.findAllBooks();
-        model.addAttribute("books", books);
-        return "books";
+        return bookMapper.convertToBookDto(books);
     }
 
     @GetMapping("/book/{id}")
-    public String findBook(@PathVariable Long id, Model model) {
+    public BookDto findBook(@PathVariable Long id) {
         Book book = bookService.findBookById(id);
-        model.addAttribute("book", book);
-        return "list-book";
+        return bookMapper.convertToBookDto(book);
     }
 
     @GetMapping("/remove-book/{id}")
-    public String deleteBook(@PathVariable Long id, Model model){
+    public void deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
-        model.addAttribute("books", bookService.findAllBooks());
-        return "books";
-    }
-
-    @GetMapping("/update-book/{id}")
-    public String updateBook(@PathVariable Long id, Model model) {
-        Book book = bookService.findBookById(id);
-        model.addAttribute("book", book);
-        model.addAttribute("categories", categoryService.findAllCategories());
-        model.addAttribute("publishers", publisherService.findAllPublishers());
-        model.addAttribute("authors", authorService.findAllAuthors());
-        return "update-book";
-    }
-
-    @PostMapping("/save-update/{id}")
-    public String updateBook(@PathVariable Long id, Book book, BindingResult result, Model model) {
-        if (result.hasErrors()){
-            return "update-book";
-        }
-        bookService.updateBook(book);
-        model.addAttribute("books", bookService.findAllBooks());
-        return "redirect:/books";
-    }
-
-    @GetMapping("/add-book")
-    public String addBook(Book book, Model model) {
-        model.addAttribute("categories", categoryService.findAllCategories());
-        model.addAttribute("publishers", publisherService.findAllPublishers());
-        model.addAttribute("authors", authorService.findAllAuthors());
-        return "add-book";
     }
 
     @PostMapping("/save-book")
-    public String saveBook(Book book, BindingResult result, Model model) {
-        if (result.hasErrors()){
-            return "add-book";
-        }
-        bookService.createBook(book);
-        model.addAttribute("books", bookService.findAllBooks());
-        return "redirect:/books";
+    public BookDto saveBook(BookDto bookDto) {
+        Book book = bookMapper.convertToBook(bookDto);
+        Book savedBook = bookService.createBook(book);
+        return bookMapper.convertToBookDto(savedBook);
     }
+
+//    @GetMapping("/update-book/{id}")
+//    public String updateBook(@PathVariable Long id) {
+//        Book book = bookService.findBookById(id);
+//        return "update-book";
+//    }
+//
+//    @PostMapping("/save-update/{id}")
+//    public String updateBook(@PathVariable Long id, Book book) {
+//        if (result.hasErrors()) {
+//            return "update-book";
+//        }
+//        bookService.updateBook(book);
+//        return "redirect:/books";
+//    }
 }
