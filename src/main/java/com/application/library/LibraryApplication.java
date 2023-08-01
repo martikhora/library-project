@@ -38,7 +38,7 @@ public class LibraryApplication {
 			book2.addPublisher(publisher2);
 			bookService.createBook(book2);
 
-			Book book3 = new Book("ABC2", "Book name", "My second book");
+			Book book3 = new Book("ABC2", "Book name", "My third book");
 			Author author3 = new Author("Test name3", "description");
 			Category category3 = new Category("Fiction books");
 			Publisher publisher3 = new Publisher("Third Publisher");

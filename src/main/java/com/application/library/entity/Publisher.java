@@ -22,7 +22,7 @@ public class Publisher {
     @Column(name = "publisher", length = 250, nullable = false, unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "publishers", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "publishers", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Book> books = new HashSet<Book>();
 
     public Publisher(String name) {
