@@ -1,9 +1,65 @@
-{
-
-  "author": {
-    "type": "object",
-    "properties" : {
-
+[
+  {
+    "author": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "long"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "book": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "long"
+        },
+        "isbn": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "long"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  {
+    "publisher": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "long"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
     }
   }
-}
+]
+
+
